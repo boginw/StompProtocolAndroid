@@ -212,6 +212,8 @@ public class StompClient {
     }
 
     public Completable disconnectCompletable() {
+        getConnectionStream().onNext(false);
+        lifecyclePublishSubject.onNext(new LifecycleEvent(LifecycleEvent.Type.CLOSED));
 
         heartBeatTask.shutdown();
 
